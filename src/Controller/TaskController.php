@@ -27,7 +27,7 @@ class TaskController extends AbstractController
     #[Route('/tasks/create', name: 'task_create')]
     public function createAction(
         Request $request,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
     ) {
         $task = new Task();
         $form = $this
@@ -36,6 +36,8 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() and $form->isValid()) {
 
+            $user = $this->getUser();
+            $task->setUser($user);
             $task->toggle(false);
             $em->persist($task);
             $em->flush();
