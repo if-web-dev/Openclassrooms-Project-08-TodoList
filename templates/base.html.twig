@@ -36,7 +36,7 @@
                 <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
                 {% endif %}
 
-                {% if app.user %}
+                {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('user_list') }}" class="btn btn-danger">Liste des utilisateurs</a>
                 {% endif %}
 

@@ -8,6 +8,7 @@ use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -15,8 +16,10 @@ class TaskController extends AbstractController
 {
 
     #[Route('/tasks', name: 'task_list')]
-    public function listAction(TaskRepository $taskRepository, UserRepository $userRepository)
-    {
+    public function listAction(
+        TaskRepository $taskRepository,
+        UserRepository $userRepository
+    ): Response {
         return $this->render('task/list.html.twig', [
             'tasks' => $taskRepository->findAll(),
             'users' => $userRepository->findAll()
@@ -28,7 +31,7 @@ class TaskController extends AbstractController
     public function createAction(
         Request $request,
         EntityManagerInterface $em,
-    ) {
+    ): Response {
         $task = new Task();
         $form = $this
             ->createForm(TaskType::class, $task)
@@ -56,7 +59,7 @@ class TaskController extends AbstractController
         Task $task,
         Request $request,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         $form = $this
             ->createForm(TaskType::class, $task)
             ->handleRequest($request);
@@ -82,7 +85,7 @@ class TaskController extends AbstractController
     public function toggleTaskAction(
         Task $task,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         $task->toggle(!$task->isDone());
         $em->persist($task);
         $em->flush();
@@ -98,7 +101,7 @@ class TaskController extends AbstractController
         Task $task,
         Request $request,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
             $em->remove($task);
             $em->flush();
