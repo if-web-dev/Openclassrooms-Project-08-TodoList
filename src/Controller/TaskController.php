@@ -8,6 +8,7 @@ use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,7 +59,8 @@ class TaskController extends AbstractController
     public function editAction(
         Task $task,
         Request $request,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Security $security
     ): Response {
         $form = $this
             ->createForm(TaskType::class, $task)
@@ -73,6 +75,12 @@ class TaskController extends AbstractController
 
             return $this->redirectToRoute('task_list');
         }
+
+        //dd($task);
+
+        //dd($task->getUser());
+
+        dd($security->getUser()->getRoles()[0]);
 
         return $this->render('task/edit.html.twig', [
             'form' => $form->createView(),
