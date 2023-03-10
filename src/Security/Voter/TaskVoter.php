@@ -25,12 +25,12 @@ class TaskVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        // Tasks can only be deleted by users who created the task in question.
+        // Tasks attached to the “anonymous” user can only be deleted by users with the administrator role (ROLE_ADMIN).
         if ($user->getRoles()[0] === "ROLE_ADMIN"){
             return true;
         }
-        // Tasks attached to the “anonymous” user can only be deleted by users with the administrator role (ROLE_ADMIN).
-        if ($user === $task->getUser() and $task->getUser() !== null){
+        // Tasks can only be deleted by users who created the task in question.
+        if ($user === $task->getUser()){
             return true;
         }
 

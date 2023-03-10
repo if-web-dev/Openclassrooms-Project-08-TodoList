@@ -16,8 +16,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TaskController extends AbstractController
 {
 
-    #[Route('/tasks', name: 'task_list')]
-    public function listAction(
+    #[Route('/tasks-to-do', name: 'tasks_to_do')]
+    public function tasksToDo(
+        TaskRepository $taskRepository,
+        UserRepository $userRepository
+    ): Response {
+        return $this->render('task/todo.html.twig', [
+            'tasks' => $taskRepository->findBy(['isDone' => false]),
+            'users' => $userRepository->findAll()
+        ]);
+    }
+
+    #[Route('/tasks', name: 'tasks_list')]
+    public function tasksList(
         TaskRepository $taskRepository,
         UserRepository $userRepository
     ): Response {
@@ -27,6 +38,16 @@ class TaskController extends AbstractController
         ]);
     }
 
+    #[Route('/tasks-completed', name: 'tasks_completed')]
+    public function tasksCompleted(
+        TaskRepository $taskRepository,
+        UserRepository $userRepository
+    ): Response {
+        return $this->render('task/completed.html.twig', [
+            'tasks' => $taskRepository->findBy(['isDone' => true]),
+            'users' => $userRepository->findAll()
+        ]);
+    }
 
     #[Route('/tasks/create', name: 'task_create')]
     public function createAction(
@@ -42,18 +63,16 @@ class TaskController extends AbstractController
 
             $user = $this->getUser();
             $task->setUser($user);
-            $task->toggle(false);
             $em->persist($task);
             $em->flush();
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('tasks_list');
         }
 
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
-
 
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
     public function editAction(
@@ -73,14 +92,8 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('tasks_list');
         }
-
-        //dd($task);
-
-        //dd($task->getUser());
-
-        dd($security->getUser()->getRoles()[0]);
 
         return $this->render('task/edit.html.twig', [
             'form' => $form->createView(),
@@ -98,9 +111,14 @@ class TaskController extends AbstractController
         $em->persist($task);
         $em->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        if($task->isDone() === true){
+            $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+            return $this->redirectToRoute('tasks_list');
+        }
 
-        return $this->redirectToRoute('task_list');
+        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme à faire.', $task->getTitle()));
+
+        return $this->redirectToRoute('tasks_list');
     }
 
 
@@ -117,6 +135,6 @@ class TaskController extends AbstractController
             $this->addFlash('success', 'La tâche a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('task_list');
+        return $this->redirectToRoute('tasks_list');
     }
 }
