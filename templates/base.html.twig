@@ -12,7 +12,6 @@
         <!-- Bootstrap Core CSS -->
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
-        
         <link href="{{ asset('css/shop-homepage.css') }}" rel="stylesheet">
 
     </head>
@@ -21,30 +20,34 @@
         <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f2fd;" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">To Do List app</a>
+                    <a class="navbar-brand" href="{{ path('homepage') }}">To Do List app</a>
 
                     <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" />
+                </div>
+                <div class="row">
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('user_list') }}" class="btn btn-danger">Liste des utilisateurs</a>
+                    <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+                    {% endif %}
+                    {% if app.user %}
+                    <a href="{{ path('logout') }}" class="btn btn-danger my-auto">Se déconnecter</a>
+                    {% endif %}
                 </div>
             </div>
         </nav>
 
         <!-- Page Content -->
         <div class="container">
-            <div class="row">
-
-                {% if app.user %}
-                <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
-                {% endif %}
-
-                {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('user_list') }}" class="btn btn-danger">Liste des utilisateurs</a>
-                {% endif %}
-
-                {#{% if not app.user and 'login' != app.request.attributes.get('_route') %}
-                <a href="{{ path('app_login') }}" class="btn btn-success">Se connecter</a>
-                {% endif %}#}
-            </div>
-
+            
+            
+            {% if app.user %}
+                <div class="row">
+                    <a href="{{ path('task_create') }}" class="btn btn-success">Créer une nouvelle tâche</a>
+                    <a href="{{ path('tasks_to_do') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
+                    <a href="{{ path('tasks_completed') }}" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
+                </div>       
+            {% endif %}
+           
             <div class="row">
                 <div class="col-md-12">
                     {% for flash_message in app.session.flashBag.get('success') %}
@@ -59,8 +62,12 @@
                         </div>
                     {% endfor %}
 
-                    {% block header_title %}{% endblock %}
-                    {% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_homepage.jpg') }}" alt="todo list">{% endblock %}
+                    {% block header_title %}
+                    {% endblock %}
+
+                    {% block header_img %}
+                        <img class="slide-image" src="{{ asset('img/todolist_homepage.jpg') }}" alt="todo list">
+                    {% endblock %}
                 </div>
             </div>
 
@@ -68,7 +75,8 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    {% block body %}{% endblock %}
+                    {% block body %}
+                    {% endblock %}
                 </div>
             </div>
         </div>

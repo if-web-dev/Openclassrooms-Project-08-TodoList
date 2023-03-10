@@ -34,9 +34,9 @@ class Task
     private ?string $content = null;
 
     #[ORM\Column]
-    private ?bool $isDone = null;
+    private ?bool $isDone = false;
 
-    #[ORM\Column]
+    #[ORM\Column (type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
