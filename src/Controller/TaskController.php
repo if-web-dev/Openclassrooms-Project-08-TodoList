@@ -5,48 +5,50 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
+    #[Route('/tasks', name: 'tasks_list')]
+    public function tasksList(
+        TaskRepository $taskRepository,
+       
+    ): Response {
+        return $this->render('task/list.html.twig', [
+            'tasks' => $taskRepository->findAll(),
+            'tasks_done_number' => $taskRepository->count(["isDone" => true]),
+            'tasks_to_do_number' => $taskRepository->count(["isDone" => false ])
+        ]);    
+    }
 
     #[Route('/tasks-to-do', name: 'tasks_to_do')]
     public function tasksToDo(
         TaskRepository $taskRepository,
-        UserRepository $userRepository
+        
     ): Response {
         return $this->render('task/todo.html.twig', [
-            'tasks' => $taskRepository->findBy(['isDone' => false]),
-            'users' => $userRepository->findAll()
-        ]);
-    }
-
-    #[Route('/tasks', name: 'tasks_list')]
-    public function tasksList(
-        TaskRepository $taskRepository,
-        UserRepository $userRepository
-    ): Response {
-        return $this->render('task/list.html.twig', [
             'tasks' => $taskRepository->findAll(),
-            'users' => $userRepository->findAll()
+            'tasks_to_do' => $taskRepository->findBy(["isDone" => false ]),
+            'tasks_done_number' => $taskRepository->count(["isDone" => true]),
+            'tasks_to_do_number' => $taskRepository->count(["isDone" => false ])
         ]);
     }
 
     #[Route('/tasks-completed', name: 'tasks_completed')]
     public function tasksCompleted(
         TaskRepository $taskRepository,
-        UserRepository $userRepository
+        
     ): Response {
         return $this->render('task/completed.html.twig', [
-            'tasks' => $taskRepository->findBy(['isDone' => true]),
-            'users' => $userRepository->findAll()
-        ]);
+            'tasks' => $taskRepository->findAll(),
+            'tasks_completed' => $taskRepository->findBy(["isDone" => true]),
+            'tasks_done_number' => $taskRepository->count(["isDone" => true]),
+            'tasks_to_do_number' => $taskRepository->count(["isDone" => false ])
+        ]);    
     }
 
     #[Route('/tasks/create', name: 'task_create')]
@@ -66,7 +68,7 @@ class TaskController extends AbstractController
             $em->persist($task);
             $em->flush();
 
-            $this->addFlash('success', 'La tâche a été bien été ajoutée.');
+            $this->addFlash('success', 'The task has been successfully added.');
 
             return $this->redirectToRoute('tasks_list');
         }
@@ -79,18 +81,19 @@ class TaskController extends AbstractController
         Task $task,
         Request $request,
         EntityManagerInterface $em,
-        Security $security
     ): Response {
         $form = $this
             ->createForm(TaskType::class, $task)
             ->handleRequest($request);
+
+            $this->denyAccessUnlessGranted('TASK_MODIFY', $task);
 
         if ($form->isSubmitted() and $form->isValid()) {
 
             $em->persist($task);
             $em->flush();
 
-            $this->addFlash('success', 'La tâche a bien été modifiée.');
+            $this->addFlash('success', 'The task has been modified');
 
             return $this->redirectToRoute('tasks_list');
         }
@@ -112,11 +115,11 @@ class TaskController extends AbstractController
         $em->flush();
 
         if($task->isDone() === true){
-            $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+            $this->addFlash('success', sprintf('The task "%s" has been marked as done', $task->getTitle()));
             return $this->redirectToRoute('tasks_list');
         }
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme à faire.', $task->getTitle()));
+        $this->addFlash('success', sprintf('The task "%s" has been marked as to do', $task->getTitle()));
 
         return $this->redirectToRoute('tasks_list');
     }
@@ -128,11 +131,14 @@ class TaskController extends AbstractController
         Request $request,
         EntityManagerInterface $em
     ): Response {
+
+        $this->denyAccessUnlessGranted('TASK_MODIFY', $task);
+
         if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
             $em->remove($task);
             $em->flush();
 
-            $this->addFlash('success', 'La tâche a bien été supprimée.');
+            $this->addFlash('success', 'The task has been deleted.');
         }
 
         return $this->redirectToRoute('tasks_list');

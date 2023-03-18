@@ -43,7 +43,7 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', "L'utilisateur a bien été ajouté.");
+            $this->addFlash('success', "The user have been added successfully");
 
             return $this->redirectToRoute('user_list');
         }
@@ -74,7 +74,7 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
+            $this->addFlash('success', "The user has been changed successfully");
 
             return $this->redirectToRoute('user_list');
         }
