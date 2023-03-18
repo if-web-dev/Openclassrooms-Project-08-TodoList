@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block head_title %}Access forbidden{% endblock %}
+
+{% block body %}
+
+
+
+    <main class="error-content d-flex flex-column justify-content-center align-items-center text-grey p-2">
+        <h1>Access Forbidden</h1>
+    
+        <p class="text-center">
+            The access of requested page is forbidden <a href="{{ path('homepage') }}">return to the homepage</a>.
+        </p>
+    </main> 
+
+
+
+{% endblock %}

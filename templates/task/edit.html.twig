@@ -1,11 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div class="row">
-        {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
-            {{ form_widget(form) }}
+{% block head_title %}
+Edit a task
+{% endblock %}
 
-            <button type="submit" class="btn btn-success pull-right">Modifier</button>
-        {{ form_end(form) }}
+{% block body %}
+
+<main class="container d-flex flex-column">
+
+    {#<div class="row p-4 align-items-center rounded-3 border m-3 bg-gradient">
+        <div class="col-lg-7 p-3 text-center">
+            <h1 class="display-4 fw-bold lh-1">
+                Edit a Task
+            </h1>
+            <p class="lead">
+                Here you can edit "{{ task.title }}"!
+            </p>
+        </div>
+        <div class="col-lg-4 text-center">
+            <img class="rounded-lg-3" src="{{ asset('img/todo-banner.png' )}}" alt="" width='100%'>
+        </div>
+    </div>#}
+
+    {#<div class="px-4 pt-5 m-3 text-center border-bottom">
+        <h1 class="display-4 fw-bold">Edit a </h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead">
+                Here you can edit "{{ task.title }}"!
+            </p>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+            <div class="container px-5">
+                <img src="{{ asset('img/todo-banner-2.png') }}" class="img-fluid rounded-3 mb-4" alt="Example image"
+                    width="700" height="500" loading="lazy">
+            </div>
+        </div>
+    </div>#}
+
+    <div class="px-4 m-3 text-center border-bottom shadow-bottom">
+        <h1 class="display-4 fw-bold">Edit a task</h1>
+        <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">
+                Here you can edit "{{ task.title }}"!
+                </p>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+            <div class="container px-5">
+                <img src="{{ asset('img/todo-banner-2.png') }}" class="img-fluid rounded-3 mb-4" alt="Example image"
+                    width="700" height="500" loading="lazy">
+            </div>
+        </div>
     </div>
+
+    <a href="{{ path('tasks_list') }}" class="btn btn-todo-1 m-3">Back to task list</a>
+
+    <div class="container">  
+         
+        {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
+    
+        {{ form_widget(form) }}
+
+    
+        <button type="submit" class="btn btn-success my-3">Edit</button>
+
+        {{ form_end(form) }}
+        
+    </div>
+
+</main>
+    
 {% endblock %}

@@ -1,38 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block header_img %}{% endblock %}
-
-{% block header_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
+{% block head_title %}
+User list
+{% endblock %}
 
 {% block body %}
+
     {% if users|length == 0 %}
         <div class="alert alert-warning" role="alert">
-            Il n'y a pas encore d'utilisateur enregistré. <a href="{{ path('user_create') }}" class="btn btn-warning pull-right">Créer un utilisateur</a>
+            There is no user recorded yet <a href="{{ path('user_create') }}" class="btn btn-warning">Create a user</a>
         </div>
     {% else %}
-        <div class="row">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nom d'utilisateur</th>
-                    <th>Adresse d'utilisateur</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for user in users %}
-                    <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>
-                            <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+
+    <main class="container d-flex flex-column">
+
+        {#<div class="row p-4 align-items-center rounded-3 border shadow-lg m-3 bg-gradient">
+            <div class="col-lg-7 p-3 text-center">
+                <h1 class="display-4 fw-bold lh-1">
+                    User List
+                </h1>
+                <p class="lead">
+                    Manage users here !
+                </p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <img class="rounded-lg-3" src="img/todo-banner.png" alt="" width='100%'>
+            </div>
+        </div>#}
+
+        <div class="px-4 m-3 text-center border-bottom shadow-bottom">
+            <h1 class="display-4 fw-bold">User list</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">Manage users here !</p>
+            </div>
+            <div class="overflow-hidden" style="max-height: 30vh;">
+                <div class="container px-5">
+                    <img src="{{ asset('img/todo-banner-2.png') }}" class="img-fluid rounded-3 mb-4" alt="Example image"
+                        width="700" height="500" loading="lazy">
+                </div>
+            </div>
         </div>
+
+        <section class="row m-3">
+      
+            <div class="card px-0">
+                <div class="card-header py-3 bg-todo-1">
+                    <h4 class="m-0 fw-bold text-white">Users List</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="myTable" class="dataTable table table-bordered mt-2">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th class="text-center">Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.roles[0] }}</td>
+                                <td class="align-middle text-center">
+                                    <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
+                                </td>
+                            </tr>      
+                            {% endfor %}   
+                            </tbody>
+                        </table>
+                    </div> 
+                </div>
+            </div>
+           
+        </section>
+
+    </main>
     {% endif %}
 {% endblock %}
