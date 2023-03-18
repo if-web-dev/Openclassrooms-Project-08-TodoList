@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block head_title %}Page not found{% endblock %}
+
+{% block body %}
+
+
+
+    <main class="error-content d-flex flex-column justify-content-center align-items-center text-grey p-2">
+        <h1>Page not found</h1>
+    
+        <p class="text-center">
+            The requested page couldn't be located. Checkout for any URL
+            misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.
+        </p>
+    </main> 
+
+
+
+{% endblock %}
