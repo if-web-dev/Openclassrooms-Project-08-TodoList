@@ -1,0 +1,25 @@
+<nav>
+    <div class="container row justify-content-between align-items-center py-3 mx-auto">
+
+        <a href="{{ path('homepage') }}" class="text-start text-decoration-none col-md-2 text-center text-md-left">
+            <img src="{{ asset('img/logo.png') }}" alt="" width='140px'>
+        </a>
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <ul class="nav mb-2 justify-content-center align-items-center fw-bold mb-md-0 col-md-6">
+            <li><a href="{{ path('homepage') }}" class="nav-link px-2 link-dark">Home</a></li>
+            <span>|</span>
+            <li><a href="{{ path('user_create') }}" class="nav-link px-2 link-dark">Add a User</a></li>
+            <span>|</span>
+            <li><a href="{{ path('user_list') }}" class="nav-link px-2 link-dark">User list</a></li>
+        </ul>
+        {% endif %}
+
+        {% if app.user %}
+        <div class="col-md-2 text-center text-md-right">
+            <a href="{{ path('logout') }}" class="btn btn-todo-1 me-2">Logout</a>
+        </div>
+        {% endif %}
+
+    </div>
+</nav>

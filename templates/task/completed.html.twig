@@ -1,43 +1,124 @@
 {% extends 'base.html.twig' %}
 
-{% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_content.jpg') }}" alt="todo list">{% endblock %}
+{% block head_title %}
+completed tasks
+{% endblock %}
 
 {% block body %}
-    {% for task in tasks %}
-    <div class="row">
-        <div class="col-sm-4 col-lg-4 col-md-4">
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4 class="pull-right">
-                        {% if task.isDone %}
-                            <span class="glyphicon glyphicon-ok"></span>
-                        {% else %}
-                            <span class="glyphicon glyphicon-remove"></span>
-                        {% endif %}
-                    </h4>
-                    <h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
-                    <p>{{ task.content }}</p>
-                </div>
-                <div>
-                    <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                        <button class="btn btn-success btn-sm pull-right">
-                            {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
-                        </button>
-                    </form>
-                    {% if is_granted("TASK_DELETE", task) %}
-                    <form method="post" action="{{ path('task_delete', {'id': task.id}) }}">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
-                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                    </form>   
+<main class="container d-flex flex-column">
+
+    <div class="row bg-todo-1 p-4 align-items-center rounded-3 border shadow-lg m-3">
+        <ul class="list-group p-0">
+            <li class="list-group-item align-items-center">
+                <a href="{{ path('tasks_list') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                    Tasks List
+                    <span class="badge bg-todo-1 rounded-pill">
+                        {{ tasks|length }}
+                    </span>
+                </a>
+
+            </li>
+            <li class="list-group-item align-items-center">
+                <a href="{{ path('tasks_completed') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                    Tasks done
+                    <span class="badge bg-todo-1 rounded-pill">
+                        {{ tasks_done_number }}
+                    </span>
+                </a>
+
+            </li>
+            <li class="list-group-item align-items-center">
+                <a href="{{ path('tasks_to_do') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                    Tasks to do
+                    <span class="badge bg-todo-1 rounded-pill">
+                        {{ tasks_to_do_number }}
+                    </span>
+                </a>
+
+            </li>
+            <li class="list-group-item align-items-center">
+                <a href="{{ path('task_create') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                    Add a Task
+                    <span class="badge bg-todo-1 rounded-pill">+</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    {% if tasks_completed is empty %}
+    <div class="m-3">
+        <div class="alert alert-warning d-flex align-items-center mb-0" role="alert">
+            There is no task completed yet <a href="{{ path('task_create') }}" class="btn btn-warning ms-auto">Create a task</a>
+        </div>
+    </div>
+    {% endif %}
+
+    {#<div class="row p-4 align-items-center rounded-3 border m-3 bg-gradient">
+        <div class="col-lg-7 p-3 text-center">
+            <h1 class="display-4 fw-bold lh-1">
+                Tasks completed
+            </h1>
+            <p class="lead">
+                Here is tasks done !
+            </p>
+        </div>
+        <div class="col-lg-4 text-center">
+            <img class="rounded-lg-3" src="img/todo-banner.png" alt="" width='100%'>
+        </div>
+    </div>#}
+
+    <div class="px-4 m-3 text-center border-bottom shadow-bottom">
+        <h1 class="display-4 fw-bold">Tasks completed</h1>
+        <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">
+                    Here is tasks done !
+                </p>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+            <div class="container px-5">
+                <img src="{{ asset('img/todo-banner-2.png') }}" class="img-fluid rounded-3 mb-4" alt="Example image"
+                    width="700" height="500" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <section class="row mt-3">
+        {% for task in tasks_completed %}
+        <div class="col-md-6 col-xl-4">
+            <div class="card text-white bg-todo-1 m-3">
+                <div class="card-header">
+                    {{ task.user.username }}
+                   <span class="status-picto shadow">
+                    {% if task.isDone %}
+                    <img src="img/todo-and-co-logo-blue.svg" width="100%">
+                    {% else %}
+                    <img src="img/todo-and-co-cross.svg" width="100%">
                     {% endif %}
+                   </span>
+                </div>
+                <div class="card-body">
+                    <h5><a href="{{ path('task_edit', {'id' : task.id }) }}" class="task-title">{{task.title|capitalize}}</a></h5>
+                    <p class="card-text">
+                        {{ task.content }}
+                    </p>
+                    <div class="d-flex">
+                        <form action="{{ path('task_toggle', {'id' : task.id }) }}">
+                            <button class="btn btn-success btn-sm mb-1 me-2">
+                                {% if not task.isDone %}Marqued as done{% else %}Marqued as to do{% endif %}
+                            </button>
+                        </form>
+                        {% if is_granted("TASK_DELETE", task) %}
+                        <form method="post" action="{{ path('task_delete', {'id': task.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                            <button class="btn btn-danger btn-sm mb-1">Delete</button>
+                        </form>   
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
         {% endfor %}
-        {% if tasks is empty %}
-        <div class="alert alert-warning" role="alert">
-            Il n'y a pas de tache terminée <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
-        </div>
-        {% endif %}
-    </div>
+    </section>
+</main>
+   
 {% endblock %}

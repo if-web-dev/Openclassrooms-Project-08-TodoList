@@ -1,9 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block header_title %}
-    <h1>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
+{% block head_title %}
+homepage
 {% endblock %}
 
 {% block body %}
+<main class="container d-flex flex-column justify-content-center">
 
+    <div class="row bg-todo-1 p-4 align-items-center rounded-3 border shadow-lg mx-3">
+        <ul class="list-group p-0">
+            <li class="list-group-item align-items-center">
+                <a href="{{ path('tasks_list') }}"
+                    class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                    Tasks List
+                    <span class="badge bg-todo-1 rounded-pill">
+                        {{ tasks|length }}
+                    </span>
+                </a>
+
+            </li>
+            <li class="list-group-item align-items-center">
+                <a href="{{ path('tasks_completed') }}"
+                    class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                    Tasks done
+                    <span class="badge bg-todo-1 rounded-pill">
+                        {{ tasks_done_number }}
+                    </span>
+                </a>
+
+            </li>
+            <li class="list-group-item align-items-center">
+                <a href="{{ path('tasks_to_do') }}"
+                    class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                    Tasks to do
+                    <span class="badge bg-todo-1 rounded-pill">
+                        {{ tasks_to_do_number }}
+                    </span>
+                </a>
+
+            </li>
+            <li class="list-group-item align-items-center">
+                <a href="{{ path('task_create') }}"
+                    class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                    Add a Task
+                    <span class="badge bg-todo-1 rounded-pill">+</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    {#<div class="row p-4 align-items-center rounded-3 border m-3 bg-gradient">
+        <div class="col-lg-7 p-3 text-center">
+            <h1 class="display-4 fw-bold lh-1">
+                Welcome to Todo List
+            </h1>
+            <p class="lead">
+                The application allowing you to manage all your tasks effortlessly!
+            </p>
+        </div>
+        <div class="col-lg-4 text-center">
+            <img class="rounded-lg-3" src="img/todo-banner.png" alt="" width='100%'>
+        </div>
+    </div>#}
+
+    <div class="px-4 pt-5 m-3 text-center border-bottom shadow-bottom">
+        <h1 class="display-4 fw-bold">Welcome to Todo List</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">The application allowing you to manage all your tasks effortlessly!</p>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+            <div class="container px-5">
+                <img src="{{ asset('img/todo-banner-2.png') }}" class="img-fluid rounded-3 mb-4" alt="Example image"
+                    width="700" height="500" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+</main>
 {% endblock %}
