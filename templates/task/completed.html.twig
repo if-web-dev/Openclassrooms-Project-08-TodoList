@@ -107,7 +107,7 @@ completed tasks
                                 {% if not task.isDone %}Marqued as done{% else %}Marqued as to do{% endif %}
                             </button>
                         </form>
-                        {% if is_granted("TASK_DELETE", task) %}
+                        {% if is_granted("TASK_MODIFY", task) %}
                         <form method="post" action="{{ path('task_delete', {'id': task.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
                             <button class="btn btn-danger btn-sm mb-1">Delete</button>
