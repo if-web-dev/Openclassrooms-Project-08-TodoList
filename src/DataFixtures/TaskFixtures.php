@@ -16,46 +16,54 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
     {
         $tasks = [
             [
-                'title'=> 'sport',
-                'content'=> 'go to the gym'
+                'title' => 'sport',
+                'content' => 'go to the gym',
             ],
             [
-                'title'=> 'school',
-                'content'=> 'monday at 9am'
+                'title' => 'school',
+                'content' => 'monday at 9am',
             ],
             [
-                'title'=> 'sport',
-                'content'=> 'legs day'
+                'title' => 'sport',
+                'content' => 'legs day',
             ],
             [
-                'title'=> 'sport',
-                'content'=> 'bust day'
+                'title' => 'sport',
+                'content' => 'bust day',
             ],
             [
-                'title'=> 'shopping',
-                'content'=> 'hygienic product'
+                'title' => 'shopping',
+                'content' => 'hygienic product',
             ],
             [
-                'title'=> 'shopping',
-                'content'=> 'food race'
+                'title' => 'shopping',
+                'content' => 'food race',
             ],
             [
-                'title'=> 'sport',
-                'content'=> 'legs day'
+                'title' => 'sport',
+                'content' => 'legs day',
             ],
             [
-                'title'=> 'sport',
-                'content'=> 'baseball'
+                'title' => 'sport',
+                'content' => 'baseball',
             ],
             [
-                'title'=> 'entertainment',
-                'content'=> 'film show'
+                'title' => 'entertainment',
+                'content' => 'film show',
             ],
         ];
 
+        //Create a anonymous task
+        $task = (new Task())
+            ->setTitle("anonymous task")
+            ->setContent("anonymous task")
+            ->setUser(null);
+
+        $manager->persist($task);
+
         foreach ($tasks as $index => $userData) {
-           
-            $randNbr = rand(0, 1);
+
+            $randNbr = rand(0, 2);
             $user = $this->getReference(UserFixtures::USER_REFERENCE . $randNbr);
 
             $task = (new Task())

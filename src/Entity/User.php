@@ -15,11 +15,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(
     fields: 'email',
-    message: 'Un utilisateur présente déja le meme email'
+    message: 'A user already presents the same email'
 )]
 #[UniqueEntity(
     fields: 'username',
-    message: "Utilisateur deja présent en base de donnée"
+    message: "User already present in the database"
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(
-        message: "Vous devez saisir un nom d'utilisateur."
+        message: "You must enter a username."
     )]
     private ?string $username = null;
 
@@ -42,20 +42,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank(
-        message: "Vous devez saisir un nom mot de passe."
+        message: "You must enter a password."
     )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\Email(
-        message: "Le format de l'adresse n'est pas correct."
+        message: "The address format is not correct."
     )]
     #[Assert\NotBlank(
-        message: "Vous devez saisir un email."
+        message: "You must enter an email"
     )]
     private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class, cascade: ['persist', 'remove'])]
     private Collection $tasks;
 
     public function __construct()
@@ -68,9 +68,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
     public function getUsername(): string
     {
         return (string) $this->username;

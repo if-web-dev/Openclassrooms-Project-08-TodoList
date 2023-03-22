@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +24,7 @@ class UserController extends AbstractController
     #[Route('/users/create', name: 'user_create')]
     public function createAction(
         Request $request,
-        EntityManagerInterface $em,
+        UserRepository $repository,
         UserPasswordHasherInterface $userPasswordHasher
     ): Response {
         $user = new User();
@@ -33,15 +32,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            // encode the plain password
+            
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('password')->getData()
                 )
             );
-            $em->persist($user);
-            $em->flush();
+            $repository->save($user, true);
 
             $this->addFlash('success', "The user have been added successfully");
 
@@ -55,7 +53,7 @@ class UserController extends AbstractController
     public function editAction(
         User $user,
         Request $request,
-        EntityManagerInterface $em,
+        UserRepository $repository,
         UserPasswordHasherInterface $userPasswordHasher
     ): Response {
         $form = $this
@@ -63,7 +61,7 @@ class UserController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            // encode the plain password
+            
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -71,8 +69,8 @@ class UserController extends AbstractController
                 )
             );
 
-            $em->persist($user);
-            $em->flush();
+            $repository->save($user, true);
+            
 
             $this->addFlash('success', "The user has been changed successfully");
 

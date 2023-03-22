@@ -14,7 +14,7 @@ class TaskVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::MODIFY])
+        return in_array($attribute, [self::MODIFY], true)
             && $task instanceof \App\Entity\Task;
     }
 
@@ -25,12 +25,12 @@ class TaskVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        // Tasks attached to the “anonymous” user can only be modified by users with the administrator role (ROLE_ADMIN).
-        if ($user->getRoles()[0] === "ROLE_ADMIN"){
+        // Tasks attached to the “anonymous” user can be modified by users with the administrator role (ROLE_ADMIN).
+        if (in_array("ROLE_ADMIN", $user->getRoles(), true)) {
             return true;
         }
-        // Tasks can only be modified by users who created the task in question.
-        if ($user === $task->getUser()){
+        // Tasks can be modified by users who created the task in question.
+        if ($user === $task->getUser()) {
             return true;
         }
 

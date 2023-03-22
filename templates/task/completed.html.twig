@@ -53,20 +53,6 @@ completed tasks
     </div>
     {% endif %}
 
-    {#<div class="row p-4 align-items-center rounded-3 border m-3 bg-gradient">
-        <div class="col-lg-7 p-3 text-center">
-            <h1 class="display-4 fw-bold lh-1">
-                Tasks completed
-            </h1>
-            <p class="lead">
-                Here is tasks done !
-            </p>
-        </div>
-        <div class="col-lg-4 text-center">
-            <img class="rounded-lg-3" src="img/todo-banner.png" alt="" width='100%'>
-        </div>
-    </div>#}
-
     <div class="px-4 m-3 text-center border-bottom shadow-bottom">
         <h1 class="display-4 fw-bold">Tasks completed</h1>
         <div class="col-lg-6 mx-auto">
@@ -87,7 +73,11 @@ completed tasks
         <div class="col-md-6 col-xl-4">
             <div class="card text-white bg-todo-1 m-3">
                 <div class="card-header">
-                    {{ task.user.username }}
+                    {% if task.user == null %}
+                        Anonymous
+                    {% else %}
+                        {{ task.user.username }}
+                    {% endif %} 
                    <span class="status-picto shadow">
                     {% if task.isDone %}
                     <img src="img/todo-and-co-logo-blue.svg" width="100%">
@@ -107,9 +97,8 @@ completed tasks
                                 {% if not task.isDone %}Marqued as done{% else %}Marqued as to do{% endif %}
                             </button>
                         </form>
-                        {% if is_granted("TASK_DELETE", task) %}
+                        {% if is_granted("TASK_MODIFY", task) %}
                         <form method="post" action="{{ path('task_delete', {'id': task.id}) }}">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
                             <button class="btn btn-danger btn-sm mb-1">Delete</button>
                         </form>   
                         {% endif %}

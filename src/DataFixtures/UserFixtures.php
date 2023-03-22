@@ -32,17 +32,23 @@ class UserFixtures extends Fixture
                 'password' => 'password',
                 'role' => ['ROLE_USER']
             ],
+            [
+                'username' => 'User3',
+                'email' => 'User3@gmail.com',
+                'password' => 'password',
+                'role' => ['ROLE_USER']
+            ]
         ];
 
         foreach ($users as $index => $userData) {
-           
+
             $user = (new User())
                 ->setUsername($userData['username'])
                 ->setEmail($userData['email'])
                 ->setRoles($userData['role']);
 
-                $password = $this->hasher->hashPassword($user, $userData['password']);
-                $user->setPassword($password);
+            $password = $this->hasher->hashPassword($user, $userData['password']);
+            $user->setPassword($password);
             $manager->persist($user);
 
             $this->addReference(self::USER_REFERENCE . $index, $user);

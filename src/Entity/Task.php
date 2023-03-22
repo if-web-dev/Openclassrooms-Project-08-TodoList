@@ -12,8 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 #[UniqueEntity(
     fields: 'title',
-    message: 'Titre de tache déja existant'
+    message: 'Existing title'
 )]
+/**
+ * Summary of Task
+ */
 class Task
 {
     #[ORM\Id]
@@ -23,20 +26,20 @@ class Task
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(
-        message: "Vous devez saisir un titre."
+        message: "You must enter a title."
     )]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(
-        message: "Vous devez décrire une tache."
+        message: "You must describe a task."
     )]
     private ?string $content = null;
 
     #[ORM\Column]
     private ?bool $isDone = false;
 
-    #[ORM\Column (type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
@@ -82,7 +85,7 @@ class Task
         return $this->isDone;
     }
 
-    public function toggle($flag)
+    public function toggle(bool $flag)
     {
         $this->isDone = $flag;
     }
