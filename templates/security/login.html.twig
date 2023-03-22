@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,32 +14,38 @@
 
     <title>login</title>
 </head>
-    <body class="bg-gradient">
-        <div class="container col-xl-10 col-xxl-8 vh-100 d-flex align-items-center ">
-            <div class="row align-items-center g-lg-5 py-5">
-                <div class="col-lg-7 text-center text-lg-start">
-                    <h1 class="display-4 fw-bold lh-1 mb-3">Openclassrooms ToDo App</h1>
-                    <p class="col-lg-10 fs-4">By logging in, you will be able to create your to-do items and mark them as done when you have completed them.</p>
-                </div>
-                <div class="col-md-10 mx-auto col-lg-5">
-                    
-                    <form class="p-4 p-md-5 border rounded-3 bg-light shadow" action="{{ path('app_login') }}" method="post">
-                        {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                        {% endif %}
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" name="_username" value="{{ last_username }}" placeholder="Password">
-                            <label for="floatingInput">Username</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPassword" name="_password" placeholder="Password">
-                            <label for="floatingPassword">Password</label>
-                        </div>
-                        <button class="w-100 btn btn-lg btn-todo-1" type="submit">Get Started</button>
-                    </form>
-                    
-                </div>
+
+<body class="bg-gradient">
+    <div class="container col-xl-10 col-xxl-8 vh-100 d-flex align-items-center ">
+        <div class="row align-items-center g-lg-5 py-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="display-4 fw-bold lh-1 mb-3">Openclassrooms ToDo App</h1>
+                <p class="col-lg-10 fs-4">By logging in, you will be able to create your to-do items and mark them as
+                    done when you have completed them.</p>
+            </div>
+            <div class="col-md-10 mx-auto col-lg-5">
+
+                <form class="p-4 p-md-5 border rounded-3 bg-light shadow" action="{{ path('app_login') }}"
+                    method="post">
+                    {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" name="_username"
+                            value="{{ last_username }}" placeholder="Password">
+                        <label for="floatingInput">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword" name="_password"
+                            placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-todo-1" type="submit">Get Started</button>
+                </form>
+
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
