@@ -1,6 +1,42 @@
-ToDoList
-========
+# Openclassrooms-Project-06-Snowtricks
 
-Base du projet #8 : Améliorez un projet existant
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/44e220000b174e3c8df750ccdaaf8203)](https://app.codacy.com/gh/if-web-dev/Openclassrooms-Project-08-ToDo-List/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-https://openclassrooms.com/projects/ameliorer-un-projet-existant-1
+We present project 8 of the PHP/Symfony application developer course. Enhance an existing ToDo & Co app.
+
+Project basis: [https://openclassrooms.com/projects/ameliorer-un-projet-existant-1](https://openclassrooms.com/projects/ameliorer-un-projet-existant-1)
+
+## To start
+
+This project was developed with PHP 8.1, it integrates the bootstrap, fontawesome libraries.
+
+### Prerequisites
+
+- A machine with at least PHP 8.1.
+- Composer
+- Symfony CLI
+
+### Installation
+
+- Clone or download the repository
+- Duplicate and rename the `.env` file to `.env.local` and modify the necessary information and choose your database (`APP_ENV`, `APP_SECRET`, ...)
+- Install the dependencies with `symfony composer install --optimize-autoloader`
+- Run migrations with `symfony console doctrine:migrations:migrate --no-interaction`
+- Add default datasets with `symfony console doctrine:fixtures:load --no-interaction`
+
+## Startup
+
+- Locally run your server like WAMP SERVER
+- Run the app with `symfony serve -d`
+- Admin Credentials : `Admin` and `password`
+- Admin Credentials : `User` and `password`
+
+## Made with
+
+* [Bootstrap](https://getbootstrap.com/) - Framework CSS (front-end)
+* [Composer](https://getcomposer.org/) - Dependancy manager
+* [Visual Studio code](https://code.visualstudio.com/) - Code editor
+
+## Author
+
+* **Ishake FOUHAL** _alias_ [@IF-WEB-DEV](https://github.com/if-web-dev)
