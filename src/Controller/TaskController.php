@@ -16,45 +16,45 @@ class TaskController extends AbstractController
     #[Route('/tasks', name: 'tasks_list')]
     public function tasksList(
         TaskRepository $taskRepository,
-       
+
     ): Response {
         return $this->render('task/list.html.twig', [
             'tasks' => $taskRepository->findAll(),
             'tasks_done_number' => $taskRepository->count(["isDone" => true]),
-            'tasks_to_do_number' => $taskRepository->count(["isDone" => false ])
-        ]);    
+            'tasks_to_do_number' => $taskRepository->count(["isDone" => false])
+        ]);
     }
 
     #[Route('/tasks-to-do', name: 'tasks_to_do')]
     public function tasksToDo(
         TaskRepository $taskRepository,
-        
+
     ): Response {
         return $this->render('task/todo.html.twig', [
             'tasks' => $taskRepository->findAll(),
-            'tasks_to_do' => $taskRepository->findBy(["isDone" => false ]),
+            'tasks_to_do' => $taskRepository->findBy(["isDone" => false]),
             'tasks_done_number' => $taskRepository->count(["isDone" => true]),
-            'tasks_to_do_number' => $taskRepository->count(["isDone" => false ])
+            'tasks_to_do_number' => $taskRepository->count(["isDone" => false])
         ]);
     }
 
     #[Route('/tasks-completed', name: 'tasks_completed')]
     public function tasksCompleted(
         TaskRepository $taskRepository,
-        
+
     ): Response {
         return $this->render('task/completed.html.twig', [
             'tasks' => $taskRepository->findAll(),
             'tasks_completed' => $taskRepository->findBy(["isDone" => true]),
             'tasks_done_number' => $taskRepository->count(["isDone" => true]),
-            'tasks_to_do_number' => $taskRepository->count(["isDone" => false ])
-        ]);    
+            'tasks_to_do_number' => $taskRepository->count(["isDone" => false])
+        ]);
     }
 
     #[Route('/tasks/create', name: 'task_create')]
     public function createAction(
         Request $request,
-        EntityManagerInterface $em,
+        TaskRepository $repository
     ): Response {
         $task = new Task();
         $form = $this
@@ -63,10 +63,9 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() and $form->isValid()) {
 
-            $user = $this->getUser();
-            $task->setUser($user);
-            $em->persist($task);
-            $em->flush();
+            $this->getUser()->addTask($task);
+            $repository->save($task, true);
+
 
             $this->addFlash('success', 'The task has been successfully added.');
 
@@ -80,18 +79,18 @@ class TaskController extends AbstractController
     public function editAction(
         Task $task,
         Request $request,
-        EntityManagerInterface $em,
+        TaskRepository $repository
+
     ): Response {
         $form = $this
             ->createForm(TaskType::class, $task)
             ->handleRequest($request);
 
-            $this->denyAccessUnlessGranted('TASK_MODIFY', $task);
+        $this->denyAccessUnlessGranted('TASK_MODIFY', $task);
 
         if ($form->isSubmitted() and $form->isValid()) {
 
-            $em->persist($task);
-            $em->flush();
+            $repository->save($task, true);
 
             $this->addFlash('success', 'The task has been modified');
 
@@ -114,7 +113,7 @@ class TaskController extends AbstractController
         $em->persist($task);
         $em->flush();
 
-        if($task->isDone() === true){
+        if ($task->isDone() === true) {
             $this->addFlash('success', sprintf('The task "%s" has been marked as done', $task->getTitle()));
             return $this->redirectToRoute('tasks_list');
         }
@@ -128,18 +127,14 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(
         Task $task,
-        Request $request,
-        EntityManagerInterface $em
+        TaskRepository $repository
     ): Response {
 
         $this->denyAccessUnlessGranted('TASK_MODIFY', $task);
 
-        if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
-            $em->remove($task);
-            $em->flush();
+        $repository->remove($task, true);
 
-            $this->addFlash('success', 'The task has been deleted.');
-        }
+        $this->addFlash('success', 'The task has been deleted.');
 
         return $this->redirectToRoute('tasks_list');
     }
