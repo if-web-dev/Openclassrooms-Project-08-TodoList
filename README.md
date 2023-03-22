@@ -6,6 +6,7 @@ We present project 8 of the PHP/Symfony application developer course. Enhance an
 
 Project basis: [https://openclassrooms.com/projects/ameliorer-un-projet-existant-1](https://openclassrooms.com/projects/ameliorer-un-projet-existant-1)
 
+
 ## To start
 
 This project was developed with PHP 8.1, it integrates the bootstrap, fontawesome libraries.
@@ -15,6 +16,7 @@ This project was developed with PHP 8.1, it integrates the bootstrap, fontawesom
 - A machine with at least PHP 8.1.
 - Composer
 - Symfony CLI
+> **NOTE** : I used WAMP Server on local.
 
 ### Installation
 
@@ -31,9 +33,14 @@ This project was developed with PHP 8.1, it integrates the bootstrap, fontawesom
 - Admin Credentials : `Admin` and `password`
 - Admin Credentials : `User` and `password`
 
+## Contributing
+
+- If you would like to contribute to this project, please read  `CONTRIBUTING.md`
+
 ## Made with
 
 * [Bootstrap](https://getbootstrap.com/) - Framework CSS (front-end)
+* [DataTables](https://datatables.net/) - Javascript library (front-end)
 * [Composer](https://getcomposer.org/) - Dependancy manager
 * [Visual Studio code](https://code.visualstudio.com/) - Code editor
 
