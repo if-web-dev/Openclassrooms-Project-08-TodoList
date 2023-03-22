@@ -31,7 +31,23 @@ This project was developed with PHP 8.1, it integrates the bootstrap, fontawesom
 - Locally run your server like WAMP SERVER
 - Run the app with `symfony serve -d`
 - Admin Credentials : `Admin` and `password`
-- User Credentials : `User` and `password`
+- Admin Credentials : `User` and `password`
+
+## Run the tests
+
+- First create a  `.env.test.local.`  file for your test environment datas and create your test database:
+
+`php bin/console --env=test doctrine:database:create`
+
+`php bin/console --env=test doctrine:fixtures:load --append`
+
+- Then run the tests:
+
+ `./vendor/bin/phpunit tests`
+
+You can add this flag to generate a HTML render of your tests.
+
+`--coverage-html public/test-coverage`
 
 ## Contributing
 
