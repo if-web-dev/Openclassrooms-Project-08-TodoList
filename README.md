@@ -31,7 +31,7 @@ This project was developed with PHP 8.1, it integrates the bootstrap, fontawesom
 - Locally run your server like WAMP SERVER
 - Run the app with `symfony serve -d`
 - Admin Credentials : `Admin` and `password`
-- Admin Credentials : `User` and `password`
+- User Credentials : `User` and `password`
 
 ## Contributing
 
