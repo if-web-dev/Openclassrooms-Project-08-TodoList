@@ -9,7 +9,7 @@ Project basis: [https://openclassrooms.com/projects/ameliorer-un-projet-existant
 
 ## To start
 
-This project was developed with PHP 8.1, it integrates the bootstrap, fontawesome libraries.
+This project was developed with PHP 8.1, it integrates the bootstrap, datatables and jquery libraries.
 
 ### Prerequisites
 
@@ -31,7 +31,7 @@ This project was developed with PHP 8.1, it integrates the bootstrap, fontawesom
 - Locally run your server like WAMP SERVER
 - Run the app with `symfony serve -d`
 - Admin Credentials : `Admin` and `password`
-- Admin Credentials : `User` and `password`
+- User Credentials : `User` and `password`
 
 ## Run the tests
 
