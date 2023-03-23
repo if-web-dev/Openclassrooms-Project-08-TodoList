@@ -24,4 +24,4 @@ We strongly recommend using a linter and analysing your code to help you detect 
 After this run the tests with generation of a code coverage report:
 `vendor/bin/phpunit --coverage-html public/test-coverage`.
 
-To implement new tests, refer to the [documentation officielle de Symfony](https://symfony.com/doc/current/testing.html)
+To implement new tests, refer to the [Symfony official documentation](https://symfony.com/doc/current/testing.html)
