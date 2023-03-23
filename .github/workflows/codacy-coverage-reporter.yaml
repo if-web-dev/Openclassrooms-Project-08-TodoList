@@ -13,7 +13,7 @@ jobs:
         with:
           # project-token: ${{ ec79084772fc4d769aa7d31c11d1f3b6 }}
           # or
-          # api-token: ${{ ec79084772fc4d769aa7d31c11d1f3b6 }}
-          coverage-reports: <https://github.com/if-web-dev/Openclassrooms-Project-08-ToDo-List/blob/main/clover.xml>
+          api-token: ${{ ec79084772fc4d769aa7d31c11d1f3b6 }}
+          coverage-reports: <clover.xml>
           # or a comma-separated list for multiple reports
           # coverage-reports: <PATH_TO_REPORT>, <PATH_TO_REPORT>
