@@ -7,7 +7,7 @@ How to contribute to the project ?
 2. Clone locally your fork
 `git clone https://github.com/YourUsername/Openclassrooms-Project-08-ToDo-List.git`
 
-3. Install the project with its dependences [see instructions](../README.md)
+3. Install the project with its dependences [see instructions](./README.md)
 
 5. Create a new git branch
 `git checkout -b new-branch`
