@@ -2,10 +2,6 @@ name: Codacy Coverage Reporter
 
 on: ["push"]
 
-runs:
-  using: 'node16'
-  main: 'main.js'
-
 jobs:
   codacy-coverage-reporter:
     runs-on: ubuntu-latest
