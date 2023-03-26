@@ -14,6 +14,6 @@ jobs:
           # project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           # or
           api-token: ec79084772fc4d769aa7d31c11d1f3b6 
-          coverage-reports: https://github.com/if-web-dev/Openclassrooms-Project-08-TodoList/blob/main/clover.xml
+          coverage-reports: blob/main/clover.xml
           # or a comma-separated list for multiple reports
           # coverage-reports: <PATH_TO_REPORT>, <PATH_TO_REPORT
