@@ -1,6 +1,7 @@
 security:
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
@@ -10,6 +11,8 @@ security:
             entity:
                 class: App\Entity\User
                 property: username
+
+# config/packagers/security.yaml
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -37,6 +40,9 @@ security:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/users, roles: ROLE_ADMIN }
         - { path: ^/, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
 
 when@test:
     security:
