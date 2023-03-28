@@ -1,4 +1,5 @@
-# Openclassrooms-Project-06-Snowtricks
+# Openclassrooms-Project-08-TodoList
+
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/44e220000b174e3c8df750ccdaaf8203)](https://app.codacy.com/gh/if-web-dev/Openclassrooms-Project-08-ToDo-List/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
