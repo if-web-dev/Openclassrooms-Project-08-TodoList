@@ -7,7 +7,7 @@
 
 We present project 8 of the PHP/Symfony application developer course. Enhance an existing ToDo & Co app.
 
-Project basis: [https://openclassrooms.com/projects/ameliorer-un-projet-existant-1](https://openclassrooms.com/projects/ameliorer-un-projet-existant-1)
+Project basis: [projet8-TodoList](https://github.com/saro0h/projet8-TodoList)
 
 
 ## To start
