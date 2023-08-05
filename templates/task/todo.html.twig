@@ -90,13 +90,13 @@ Tasks to do
                     {% else %}
                         {{ task.user.username }}
                     {% endif %} 
-                   <span class="status-picto shadow">
-                    {% if task.isDone %}
-                    <img src="img/todo-and-co-logo-blue.svg" width="100%">
-                    {% else %}
-                    <img src="img/todo-and-co-cross.svg" width="100%">
-                    {% endif %}
-                   </span>
+                    <span class="status-picto shadow" data-task-id="{{ task.id }}">
+                        {% if task.isDone %}
+                        <img src="img/todo-and-co-logo-blue.svg" width="100%">
+                        {% else %}
+                        <img src="img/todo-and-co-cross.svg" width="100%">
+                        {% endif %}
+                    </span>
                 </div>
                 <div class="card-body">
                     <h5><a href="{{ path('task_edit', {'id' : task.id }) }}" class="task-title">{{task.title|capitalize}}</a></h5>
@@ -104,11 +104,9 @@ Tasks to do
                         {{task.content}}
                     </p>
                     <div class="d-flex">
-                        <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                            <button class="btn btn-success btn-sm mb-1 me-2">
-                                {% if not task.isDone %}Marqued as done{% else %}Marqued as to do{% endif %}
-                            </button>
-                        </form>
+                        <button class="btn btn-success btn-sm mb-1 me-2 toggle" data-task-id="{{ task.id }}" data-is-done="{{ task.isDone ? 1 : 0 }}">
+                            {% if not task.isDone %}Marked as done{% else %}Marked as to do{% endif %}
+                        </button> 
                         {% if is_granted("TASK_MODIFY", task) %}
                         <form method="post" action="{{ path('task_delete', {'id': task.id}) }}">
                             <button class="btn btn-danger btn-sm mb-1">Delete</button>
@@ -122,4 +120,48 @@ Tasks to do
     </section>
 </main>
    
+{% endblock %}
+
+{% block javascript %}
+<script>
+    
+   
+    $(document).ready(function() {
+        $('.toggle').click(function(e) {
+            var button = $(this);
+            
+            var taskId = button.data('task-id');
+            var isDone = button.data('is-done'); 
+            e.preventDefault();
+            
+            console.log(isDone);
+            console.log(taskId);
+            console.log($('.status-picto[data-task-id="1"]'));
+           
+
+            $.ajax({
+                url: '/tasks/' + taskId + '/toggle',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (isDone) {
+                        button.text("Marked as done");
+                        $('.status-picto[data-task-id="' + taskId + '"]').html('<img src="img/todo-and-co-cross.svg" width="100%">');
+                    } else {
+                        button.text("Marked as to do");
+                        $('.status-picto[data-task-id="' + taskId + '"]').html('<img src="img/todo-and-co-logo-blue.svg" width="100%">');
+                    }
+
+                    button.data('is-done', !isDone);
+
+                    alert(data.message);
+        
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

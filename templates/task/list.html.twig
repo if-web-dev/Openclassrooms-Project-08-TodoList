@@ -116,8 +116,7 @@ Tasks list
     $(document).ready(function() {
         $('.toggle').click(function(e) {
             var button = $(this);
-            var good = $('.good');
-            var wrong = $('.wrong');
+            
             var taskId = button.data('task-id');
             var isDone = button.data('is-done'); 
             e.preventDefault();
