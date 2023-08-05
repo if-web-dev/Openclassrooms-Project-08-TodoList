@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
@@ -107,20 +108,18 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
     public function toggleTaskAction(
         Task $task,
-        EntityManagerInterface $em
-    ): Response {
+        EntityManagerInterface $em,
+        Request $request
+    ): JsonResponse {
         $task->toggle(!$task->isDone());
         $em->persist($task);
         $em->flush();
-
-        if ($task->isDone() === true) {
-            $this->addFlash('success', sprintf('The task "%s" has been marked as done', $task->getTitle()));
-            return $this->redirectToRoute('tasks_list');
-        }
-
-        $this->addFlash('success', sprintf('The task "%s" has been marked as to do', $task->getTitle()));
-
-        return $this->redirectToRoute('tasks_list');
+    
+        $response = [
+            'message' => $task->isDone() ? sprintf('The task "%s" has been marked as done', $task->getTitle()) : sprintf('The task "%s" has been marked as to do', $task->getTitle())
+        ];
+    
+        return new JsonResponse($response);
     }
 
 
