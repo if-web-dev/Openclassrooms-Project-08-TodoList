@@ -68,7 +68,7 @@ completed tasks
         </div>
     </div>
 
-    <section class="row mt-3">
+    <section class="row mt-3 justify-content-center">
         {% for task in tasks_completed %}
         <div class="col-md-6 col-xl-4">
             <div class="card text-white bg-todo-1 m-3">
@@ -112,8 +112,6 @@ completed tasks
 
 {% block javascript %}
 <script>
-    
-   
     $(document).ready(function() {
         $('.toggle').click(function(e) {
             var button = $(this);
