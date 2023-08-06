@@ -24,9 +24,12 @@
                     done when you have completed them.</p>
             </div>
             <div class="col-md-10 mx-auto col-lg-5">
-
+                
                 <form class="p-4 p-md-5 border rounded-3 bg-light shadow" action="{{ path('app_login') }}"
                     method="post">
+                    <div class="d-flex justify-content-center mb-4">
+                        <img src="{{ asset('img/logo-2.png') }}" alt="" width='140px'>
+                    </div>
                     {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}

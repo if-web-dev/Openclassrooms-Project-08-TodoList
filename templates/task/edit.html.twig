@@ -23,15 +23,14 @@ Edit a task
         </div>
     </div>
 
-    <a href="{{ path('tasks_list') }}" class="btn btn-todo-1 m-3">Back to task list</a>
+    <a href="{{ path('tasks_list') }}" class="btn btn-todo-1 m-3 mx-auto">Back to task list</a>
 
-    <div class="container">  
+    <div class="container my-3 task">  
          
         {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
     
         {{ form_widget(form) }}
 
-    
         <button type="submit" class="btn btn-success my-3">Edit</button>
 
         {{ form_end(form) }}

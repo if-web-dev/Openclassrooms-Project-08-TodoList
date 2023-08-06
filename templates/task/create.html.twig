@@ -22,18 +22,18 @@ task create
         </div>
     </div>
 
-    <a href="{{ path('tasks_list') }}" class="btn btn-todo-1 m-3">Back to task list</a>
+    <a href="{{ path('tasks_list') }}" class="btn btn-todo-1 m-3 mx-auto">Back to task list</a>
 
-    <div class="container my-3">
-        <div class>
-            {{ form_start(form, {'action' : path('task_create')}) }}
+    <div class="container my-3 task">
+        
+        {{ form_start(form, {'action' : path('task_create')}) }}
 
-            {{ form_widget(form) }}
+        {{ form_widget(form) }}
 
-            <button type="submit" class="btn btn-success mt-3">Create</button>
+        <button type="submit" class="btn btn-success mt-3">Create</button>
 
-            {{ form_end(form) }}
-        </div>
+        {{ form_end(form) }}
+       
     </div>
 
 </main>

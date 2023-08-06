@@ -109,7 +109,6 @@ class TaskController extends AbstractController
     public function toggleTaskAction(
         Task $task,
         EntityManagerInterface $em,
-        Request $request
     ): JsonResponse {
         $task->toggle(!$task->isDone());
         $em->persist($task);

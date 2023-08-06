@@ -2,7 +2,7 @@
     <div class="container row justify-content-between align-items-center py-3 mx-auto">
 
         <a href="{{ path('homepage') }}" class="text-start text-decoration-none col-md-2 text-center text-md-left">
-            <img src="{{ asset('img/logo.png') }}" alt="" width='140px'>
+            <img src="{{ asset('img/logo-2.png') }}" alt="" width='140px'>
         </a>
 
         {% if is_granted('ROLE_ADMIN') %}
@@ -17,7 +17,9 @@
 
         {% if app.user %}
         <div class="col-md-2 text-center text-md-right">
-            <a href="{{ path('app_logout') }}" class="btn btn-todo-1 me-2">Logout</a>
+            <a href="{{ path('app_logout') }}" class="btn btn-todo-1 me-2">
+                Logout
+            </a>
         </div>
         {% endif %}
 

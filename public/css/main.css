@@ -15,8 +15,16 @@ h1 {
     color: var(--bs-todo-1);
 }
 
+li a {
+    color: var(--bs-todo-1);
+}
+
 main {
     flex: 1;
+}
+
+.task {
+    max-width: 700px;
 }
 
 
