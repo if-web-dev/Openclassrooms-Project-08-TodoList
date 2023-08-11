@@ -14,20 +14,6 @@ User list
 
     <main class="container d-flex flex-column">
 
-        {#<div class="row p-4 align-items-center rounded-3 border shadow-lg m-3 bg-gradient">
-            <div class="col-lg-7 p-3 text-center">
-                <h1 class="display-4 fw-bold lh-1">
-                    User List
-                </h1>
-                <p class="lead">
-                    Manage users here !
-                </p>
-            </div>
-            <div class="col-lg-4 text-center">
-                <img class="rounded-lg-3" src="img/todo-banner.png" alt="" width='100%'>
-            </div>
-        </div>#}
-
         <div class="px-4 m-3 text-center border-bottom shadow-bottom">
             <h1 class="display-4 fw-bold">User list</h1>
             <div class="col-lg-6 mx-auto">
@@ -49,7 +35,7 @@ User list
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="myTable" class="dataTable table table-bordered mt-2">
+                        <table id="myTable" class="table table-bordered mt-2">
                             <thead>
                                 <tr>
                                     <th>Username</th>
@@ -65,7 +51,7 @@ User list
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.roles[0] }}</td>
                                 <td class="align-middle text-center">
-                                    <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
+                                    <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-outline-success btn-sm">Edit</a>
                                 </td>
                             </tr>      
                             {% endfor %}   

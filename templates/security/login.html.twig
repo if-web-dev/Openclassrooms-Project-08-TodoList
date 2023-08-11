@@ -19,7 +19,9 @@
     <div class="container col-xl-10 col-xxl-8 vh-100 d-flex align-items-center ">
         <div class="row align-items-center g-lg-5 py-5">
             <div class="col-lg-7 text-center text-lg-start">
-                <h1 class="display-4 fw-bold lh-1 mb-3">Openclassrooms ToDo App</h1>
+                <div class="d-flex justify-content-center mb-4">
+                    <img src="{{ asset('img/logo-2.png') }}" alt="" width='200px'>
+                </div>
                 <p class="col-lg-10 fs-4">By logging in, you will be able to create your to-do items and mark them as
                     done when you have completed them.</p>
             </div>
@@ -27,9 +29,6 @@
                 
                 <form class="p-4 p-md-5 border rounded-3 bg-light shadow" action="{{ path('app_login') }}"
                     method="post">
-                    <div class="d-flex justify-content-center mb-4">
-                        <img src="{{ asset('img/logo-2.png') }}" alt="" width='140px'>
-                    </div>
                     {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
