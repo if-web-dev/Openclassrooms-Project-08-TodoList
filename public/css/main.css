@@ -133,3 +133,59 @@ table {
 .shadow-bottom {
     box-shadow: 0px 13px 15px -20px #111; 
 }
+
+#myTable_wrapper .row {
+    max-width: 100%;
+}
+
+#myTable_wrapper .row div {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#myTable_wrapper .paginate_button:not(.next):not(.previous) a {
+    background-color: #1f438a;
+    border: #1f438a;
+}
+
+div.dt-row, div.row {
+    margin: 0 10px;
+}
+
+
+/* Styles for mobile screens (portrait and landscape) */
+@media screen and (max-width: 767px) {
+
+    #myTable_wrapper .row div {
+       width: 100%!important;
+       text-align: center;
+    }
+
+    ul.pagination {
+        display: flex;
+        justify-content: center;
+    }
+   
+}
+
+/* Styles for tabs screens (portrait and landscape) */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+
+}
+
+
+/* Styles for landscape tablets and desktop screens */
+@media screen and (min-width: 992px) {
+   
+}
+
+/* Styles for large desktop screens */
+@media screen and (min-width: 1200px) {
+
+   
+}
+
+/* Styles for high resolution displays (e.g. Retina) */
+@media screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+   
+}
