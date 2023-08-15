@@ -2,12 +2,15 @@
 
 namespace App\tests\Controller;
 
+use App\Tests\SessionHelper;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserControllerTest extends WebTestCase
 {
+    use SessionHelper;
+    
     public function testListNoAuth(): void
     {
         $client = static::createClient();
@@ -70,6 +73,10 @@ class UserControllerTest extends WebTestCase
         //confirm the redirection
         $client->followRedirects();
         $this->assertResponseRedirects('/users', 302);
+        //confirm it in db
+        $User = $userRepository->findOneByUsername('johnPoo');
+        $this->assertSame('johnPoo', $User->getUsername());
+        
     }
 
     public function testUserEditAsAdmin(): void
@@ -105,4 +112,29 @@ class UserControllerTest extends WebTestCase
         //confirm the new username
         $this->assertSame('User2', $testUserEdited->getUsername());
     }
+
+    public function testDeleteUser(): void
+    {
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        //Get Admin and a user
+        $Admin = $userRepository->findOneByUsername('Admin');
+        $User = $userRepository->findOneByUsername('User3');
+        //log the Admin and delete johnPoo if csrftoken activated
+        $client
+        ->loginUser($Admin)
+        ->request(
+            Request::METHOD_POST, 
+            '/users/' . $User->getId() . '/delete',
+            ['_token' => $this->generateCsrfToken($client, 'delete'.$User->getId())]
+        );
+        //Expect a redirection to user list
+        $client->followRedirects();
+        $this->assertResponseRedirects('/users', 302);
+      
+        //Expect user is deleted
+        $this->assertNull($userRepository->findOneBy(['username' => 'User3']));
+        
+    }
+
 }

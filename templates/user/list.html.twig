@@ -50,8 +50,14 @@ User list
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.roles[0] }}</td>
-                                <td class="align-middle text-center">
-                                    <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-outline-success btn-sm">Edit</a>
+                                <td class="align-middle text-center d-flex justify-content-center">
+                                    <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-outline-success btn-sm me-2">Edit</a>
+                                    {% if user.roles[0] != "ROLE_ADMIN" %}
+                                    <form method="post" action="{{ path('user_delete', {'id': user.id}) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                        <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                    </form>
+                                    {% endif %}
                                 </td>
                             </tr>      
                             {% endfor %}   

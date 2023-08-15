@@ -46,7 +46,7 @@ class TaskVoterTest extends KernelTestCase
 
         $userRepository = static::getContainer()->get(UserRepository::class);
 
-        $user = $userRepository->findOneByUsername("User2");
+        $user = $userRepository->findOneByUsername("User");
 
         $taskOwned = $user->getTasks()[0];
 
@@ -63,7 +63,7 @@ class TaskVoterTest extends KernelTestCase
 
         $userRepository = static::getContainer()->get(UserRepository::class);
 
-        $wrongUser = $userRepository->findOneByUsername("User2");
+        $wrongUser = $userRepository->findOneByUsername("User");
 
         $token = new PreAuthenticatedToken($wrongUser, 'main', $wrongUser->getRoles());
 

@@ -13,7 +13,7 @@ class UserRepositoryTest extends KernelTestCase
         
         self::bootKernel();
         $users = static::getContainer()->get(UserRepository::class)->count([]);
-        $this->assertEquals(4, $users);
+        $this->assertEquals(3, $users);
     }
 
     public function testUserRemove(): void
