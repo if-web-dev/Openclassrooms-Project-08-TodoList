@@ -21,7 +21,7 @@ Tasks list
                 <a href="{{ path('tasks_completed') }}"
                     class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
                     Tasks done
-                    <span class="badge bg-todo-1 rounded-pill">
+                    <span class="badge bg-todo-1 rounded-pill" id="tasks-done-number">
                         {{ tasks_done_number }}
                     </span>
                 </a>
@@ -30,11 +30,10 @@ Tasks list
             <li class="list-group-item align-items-center">
                 <a href="{{ path('tasks_to_do') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
                     Tasks to do
-                    <span class="badge bg-todo-1 rounded-pill">
+                    <span class="badge bg-todo-1 rounded-pill" id="tasks-to-do-number">
                         {{ tasks_to_do_number }}
                     </span>
                 </a>
-
             </li>
             <li class="list-group-item align-items-center">
                 <a href="{{ path('task_create') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
@@ -91,7 +90,7 @@ Tasks list
                     </p>
                     <div class="d-flex">
                         <button class="btn btn-success btn-sm mb-1 me-2 toggle" data-task-id="{{ task.id }}" data-is-done="{{ task.isDone ? 1 : 0 }}">
-                            {% if not task.isDone %}Marked as done{% else %}Marked as to do{% endif %}
+                            {% if task.isDone %}Marked as to do{% else %}Marked as done{% endif %}
                         </button>                    
                         {% if is_granted("TASK_MODIFY", task) %}
                         <form method="post" action="{{ path('task_delete', {'id': task.id}) }}">
@@ -114,14 +113,13 @@ Tasks list
         $('.toggle').click(function(e) {
             var button = $(this);
             
-            var taskId = button.data('task-id');
-            var isDone = button.data('is-done'); 
+            let taskId = button.data('task-id');
+            let isDone = button.data('is-done');
+            let toDoNumber = $('#tasks-to-do-number');
+            let doneNumber = $('#tasks-done-number');
+
             e.preventDefault();
-            
-            console.log(isDone);
-            console.log(taskId);
-            console.log($('.status-picto[data-task-id="1"]'));
-           
+
 
             $.ajax({
                 url: '/tasks/' + taskId + '/toggle',
@@ -131,9 +129,23 @@ Tasks list
                     if (isDone) {
                         button.text("Marked as done");
                         $('.status-picto[data-task-id="' + taskId + '"]').html('<img src="img/todo-and-co-cross.svg" width="100%">');
+                        let currentDoneNumber = parseInt(doneNumber.text());
+                        let newDoneNumber = currentDoneNumber - 1;
+                        doneNumber.text(newDoneNumber);
+
+                        let currentToDoNumber = parseInt(toDoNumber.text());
+                        let newToDoNumber = currentToDoNumber + 1;
+                        toDoNumber.text(newToDoNumber);
                     } else {
                         button.text("Marked as to do");
                         $('.status-picto[data-task-id="' + taskId + '"]').html('<img src="img/todo-and-co-logo-blue.svg" width="100%">');
+                        let currentDoneNumber = parseInt(doneNumber.text());
+                        let newDoneNumber = currentDoneNumber + 1;
+                        doneNumber.text(newDoneNumber);
+
+                        let currentToDoNumber = parseInt(toDoNumber.text());
+                        let newToDoNumber = currentToDoNumber - 1;
+                        toDoNumber.text(newToDoNumber);
                     }
 
                     button.data('is-done', !isDone);

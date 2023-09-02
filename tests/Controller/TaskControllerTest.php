@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Tests\Controller\SecurityControllerTest;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TaskControllerTest extends WebTestCase
@@ -23,12 +24,9 @@ class TaskControllerTest extends WebTestCase
     public function testListAsUser(): Void
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneByUsername('User');
         //log a user
-        $client
-            ->loginUser($user)
-            ->request(Request::METHOD_GET, '/tasks');
+        SecurityControllerTest::login($client, 'User');
+        $client->request(Request::METHOD_GET, '/tasks');
         //Expected a successful response
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Tasks List');
@@ -38,13 +36,10 @@ class TaskControllerTest extends WebTestCase
     public function testTaskCreate(): void
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
         $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $user = $userRepository->findOneByUsername('User');
-        //log a user
-        $client
-            ->loginUser($user)
-            ->request('GET', '/tasks/create');
+        //Log a user
+        SecurityControllerTest::login($client, 'User');
+        $client->request('GET', '/tasks/create');
         //Create a task
         $client->submitForm(
                 'Create', [
@@ -138,7 +133,7 @@ class TaskControllerTest extends WebTestCase
         //log a user
         $client->loginUser($taskOwner);
         //Get his own task
-        $taskOwned = $taskOwner->getTasks()[0];
+        $taskOwned = $taskOwner->getTasks()->first();
         $taskOwnedId = $taskOwned->getId();
         //Delete his own task
         $client->request('GET', '/tasks/'.$taskOwnedId.'/delete');
@@ -153,22 +148,19 @@ class TaskControllerTest extends WebTestCase
     public function testDeleteTaskAnonymous(): void
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
         $taskRepository = static::getContainer()->get(TaskRepository::class);
-         //Get a user Admin
-         $admin = $userRepository->findOneByUsername('Admin');
-         //log a user
-         $client->loginUser($admin);
-         //Get an anonymous task
-         $anonymousTask = $taskRepository->findOneByUser(null);
-         $anonymousTaskId = $anonymousTask->getId();
-         //Delete the anonymous task
-         $client->request('GET', '/tasks/'.$anonymousTaskId.'/delete');
-         //Expect a redirection to tasks list
-         $client->followRedirects();
-         $this->assertResponseRedirects('/tasks', 302);
-         //Expect task is deleted
-         $this->assertEquals(null, $taskRepository->findOneById($anonymousTaskId));
+         
+        SecurityControllerTest::login($client, 'Admin');
+        //Get an anonymous task
+        $anonymousTask = $taskRepository->findOneByUser(null);
+        $anonymousTaskId = $anonymousTask->getId();
+        //Delete the anonymous task
+        $client->request('GET', '/tasks/'.$anonymousTaskId.'/delete');
+        //Expect a redirection to tasks list
+        $client->followRedirects();
+        $this->assertResponseRedirects('/tasks', 302);
+        //Expect task is deleted
+        $this->assertEquals(null, $taskRepository->findOneById($anonymousTaskId));
     }
 
     
@@ -176,31 +168,29 @@ class TaskControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-         //Get different users
-         $user1 = $userRepository->findOneByUsername('User3');
-         $user2 = $userRepository->findOneByUsername('User');
-         //log a user
-         $client->loginUser($user1);
-         //Get an anonymous task
-         $task = $user2->getTasks()->first();
-         $taskId = $task->getId();
-         //Delete the anonymous task
-         $client->request('GET', '/tasks/'.$taskId.'/delete');
-         //Expect a redirection
-         $this->assertResponseStatusCodeSame(403);
-         //Expect a difference between user id and task user id
-         $this->assertNotEquals($user1->getId(), $task->getUser()->getId());
+        //Get different users
+        $user1 = $userRepository->findOneByUsername('User3');
+        $user2 = $userRepository->findOneByUsername('User');
+        //Log a user
+        $client->loginUser($user1);
+        //Get an anonymous task
+        $task = $user2->getTasks()->first();
+        $taskId = $task->getId();
+        //Delete the anonymous task
+        $client->request('GET', '/tasks/'.$taskId.'/delete');
+        //Expect a redirection
+        $this->assertResponseStatusCodeSame(403);
+        //Expect a difference between user id and task user id
+        $this->assertNotEquals($user1->getId(), $task->getUser()->getId());
     }
 
     public function testDisplayTaskToDo(): void
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneByUsername('User');
-        //log a user
-        $client
-            ->loginUser($user)
-            ->request(Request::METHOD_GET, '/tasks-to-do');
+        //Log a user
+        SecurityControllerTest::login($client, 'User');
+        //Log a user
+        $client->request(Request::METHOD_GET, '/tasks-to-do');
         //Expect HTTP reponse 200
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Tasks to do');
@@ -209,12 +199,9 @@ class TaskControllerTest extends WebTestCase
     public function testDisplayTaskCompleted(): void
     {
         $client = static::createClient();
-        $userRepository = static::getContainer()->get(UserRepository::class);
-        $user = $userRepository->findOneByUsername('User');
-        //log a user
-        $client
-            ->loginUser($user)
-            ->request(Request::METHOD_GET, '/tasks-completed');
+        //Log a user
+        SecurityControllerTest::login($client, 'User');
+        $client->request(Request::METHOD_GET, '/tasks-completed');
         //Expect HTTP reponse 200
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Tasks completed');

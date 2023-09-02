@@ -2,8 +2,11 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SecurityControllerTest extends WebTestCase
 {
@@ -22,12 +25,12 @@ class SecurityControllerTest extends WebTestCase
         $this->assertRouteSame('homepage');
     }
 
-    public function testLoginWithBadCredentials(): void
+    public function testLoginWithWrongCredentials(): void
     {
         $client = static::createClient();
         $crawler = $client->request(Request::METHOD_GET, '/login');
         /**
-         * test login with bad credentials
+         * test login with wrong credentials
          */
         $form = $crawler->selectButton('Get Started')->form([
             '_username' => 'john@doe.fr',
@@ -38,4 +41,16 @@ class SecurityControllerTest extends WebTestCase
         $this->assertSelectorExists('.alert.alert-danger');
     }
 
+    public static function login(KernelBrowser $client, string $as): ?User
+    {
+        try {
+            $user = static::getContainer()->get(UserRepository::class)->findOneByUsername($as);
+            $client->loginUser($user);
+
+            return $user;
+        } catch (\Exception $e) {
+        }
+
+        return null;
+    }
 }
