@@ -1,0 +1,40 @@
+<div class="col-md-6 col-xl-4">
+    <div class="card text-white bg-todo-1 m-3">
+        <div class="card-header d-flex justify-content-between">
+            <div>
+                {% if task.user == null %}
+                    Anonymous
+                {% else %}
+                    {{ task.user.username }}
+                {% endif %} 
+            </div>
+            <p style="font-size: 0.8rem;">{{ task.createdAt|date('d/m/Y H:i:s') }}</p>
+            <span class="status-picto shadow" data-task-id="{{ task.id }}">
+                {% if task.isDone %}
+                <img src="img/todo-and-co-logo-blue.svg" width="100%">
+                {% else %}
+                <img src="img/todo-and-co-cross.svg" width="100%">
+                {% endif %}
+            </span>
+        </div>
+        <div class="card-body">
+            <h5><a href="{{ path('task_edit', {'id' : task.id }) }}" class="task-title">{{task.title|capitalize}}</a></h5>
+            <p class="card-text">
+                {{task.content}}
+            </p>
+            <p class="text-warning">
+                Deadline: {{ task.createdAt|date('d/m/Y H:i:s') }}
+            </p>
+            <div class="d-flex">
+                <button class="btn btn-success btn-sm mb-1 me-2 toggle" data-task-id="{{ task.id }}" data-is-done="{{ task.isDone ? 1 : 0 }}">
+                    {% if task.isDone %}Marked as to do{% else %}Marked as done{% endif %}
+                </button>                    
+                {% if is_granted("TASK_MODIFY", task) %}
+                <form method="post" action="{{ path('task_delete', {'id': task.id}) }}">
+                    <button class="btn btn-danger btn-sm mb-1">Delete</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

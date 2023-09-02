@@ -1,0 +1,37 @@
+<div class="row bg-todo-1 p-4 align-items-center rounded-3 border shadow-lg m-3">
+    <ul class="list-group p-0">
+        <li class="list-group-item align-items-center">
+            <a href="{{ path('tasks_list') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                Tasks List
+                <span class="badge bg-todo-1 rounded-pill">
+                    {{ tasks|length }}
+                </span>
+            </a>
+
+        </li>
+        <li class="list-group-item align-items-center">
+            <a href="{{ path('tasks_completed') }}"
+                class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                Tasks done
+                <span class="badge bg-todo-1 rounded-pill" id="tasks-done-number">
+                    {{ tasks_done_number }}
+                </span>
+            </a>
+
+        </li>
+        <li class="list-group-item align-items-center">
+            <a href="{{ path('tasks_to_do') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                Tasks to do
+                <span class="badge bg-todo-1 rounded-pill" id="tasks-to-do-number">
+                    {{ tasks_to_do_number }}
+                </span>
+            </a>
+        </li>
+        <li class="list-group-item align-items-center">
+            <a href="{{ path('task_create') }}" class="d-flex justify-content-between w-100 text-decoration-none fw-bold">
+                Add a Task
+                <span class="badge bg-todo-1 rounded-pill">+</span>
+            </a>
+        </li>
+    </ul>
+</div>

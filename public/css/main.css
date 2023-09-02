@@ -110,7 +110,7 @@ footer {
     border-radius: 50%;
     position: absolute;
     background-color: white;
-    top: 0;
+    top: 10px;
     transform: translate(50%, 50%);
     right: 0;
     left: auto;
