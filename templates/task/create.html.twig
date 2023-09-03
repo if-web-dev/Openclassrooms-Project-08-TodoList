@@ -39,3 +39,21 @@ task create
 </main>
 
 {% endblock %}
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+        $('input[name="{{ form.checkbox_field.vars.full_name }}"]').change(function () {
+            if ($(this).is(':checked')) {
+                $('#conditional-field').toggleClass("d-none");
+                $('#conditional-field input').attr('required', "true");
+            } else {
+                $('#conditional-field').toggleClass("d-none");
+                $('#conditional-field input').removeAttr('required', "true");
+            }
+        });
+    });
+</script>
+
+{% endblock %}

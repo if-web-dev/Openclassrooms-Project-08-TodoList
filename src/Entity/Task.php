@@ -45,6 +45,9 @@ class Task
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?User $user = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $deadline = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -110,6 +113,18 @@ class Task
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDeadline(): ?\DateTimeImmutable
+    {
+        return $this->deadline;
+    }
+
+    public function setDeadline(?\DateTimeImmutable $deadline): self
+    {
+        $this->deadline = $deadline;
 
         return $this;
     }

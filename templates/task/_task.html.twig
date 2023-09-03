@@ -1,5 +1,5 @@
-<div class="col-md-6 col-xl-4">
-    <div class="card text-white bg-todo-1 m-3">
+<div class="col-md-6 col-xl-4 d-flex">
+    <div class="card text-white bg-todo-1 flex-fill m-3">
         <div class="card-header d-flex justify-content-between">
             <div>
                 {% if task.user == null %}
@@ -17,15 +17,18 @@
                 {% endif %}
             </span>
         </div>
-        <div class="card-body">
+        <div class="card-body d-flex flex-column">
             <h5><a href="{{ path('task_edit', {'id' : task.id }) }}" class="task-title">{{task.title|capitalize}}</a></h5>
             <p class="card-text">
                 {{task.content}}
             </p>
+            {% if task.deadline %}
             <p class="text-warning">
-                Deadline: {{ task.createdAt|date('d/m/Y H:i:s') }}
-            </p>
-            <div class="d-flex">
+                Deadline: {{ task.deadline|date('d/m/Y') }}
+            </p>  
+            {% endif %}
+           
+            <div class="d-flex mt-auto">
                 <button class="btn btn-success btn-sm mb-1 me-2 toggle" data-task-id="{{ task.id }}" data-is-done="{{ task.isDone ? 1 : 0 }}">
                     {% if task.isDone %}Marked as to do{% else %}Marked as done{% endif %}
                 </button>                    
