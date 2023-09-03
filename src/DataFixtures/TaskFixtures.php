@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use App\Entity\Task;
 use App\DataFixtures\UserFixtures;
 use Doctrine\Persistence\ObjectManager;
@@ -57,6 +58,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
         $task = (new Task())
             ->setTitle("anonymous task")
             ->setContent("anonymous task")
+            ->setDeadline(new \DateTimeImmutable())
             ->setUser(null);
 
         $manager->persist($task);
