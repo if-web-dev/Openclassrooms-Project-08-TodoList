@@ -3,9 +3,14 @@
         <div class="card-header d-flex justify-content-between">
             <div>
                 {% if task.user == null %}
-                    Anonymous
+                    <span class="badge bg-light text-secondary">
+                        Anonymous
+                    </span>
+                    
                 {% else %}
-                    {{ task.user.username }}
+                    <span class="badge bg-light text-secondary">
+                        {{ task.user.username }}
+                    </span>
                 {% endif %} 
             </div>
             <p style="font-size: 0.8rem;">{{ task.createdAt|date('d/m/Y H:i:s') }}</p>
@@ -33,9 +38,7 @@
                     {% if task.isDone %}Marked as to do{% else %}Marked as done{% endif %}
                 </button>                    
                 {% if is_granted("TASK_MODIFY", task) %}
-                <form method="post" action="{{ path('task_delete', {'id': task.id}) }}">
-                    <button class="btn btn-danger btn-sm mb-1">Delete</button>
-                </form>
+                <a href="{{ path('task_delete', {'id': task.id}) }}" class="link-danger ms-2 mt-1 text-decoration-none">Delete</a>
                 {% endif %}
             </div>
         </div>

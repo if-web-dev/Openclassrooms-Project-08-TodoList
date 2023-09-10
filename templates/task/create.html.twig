@@ -26,7 +26,7 @@ task create
 
     <div class="container my-3 task">
         
-        {{ form_start(form, {'action' : path('task_create')}) }}
+        {{ form_start(form, {'action' : path('task_create', {'id': 'task'})}) }}
 
         {{ form_widget(form) }}
 
@@ -42,18 +42,35 @@ task create
 
 {% block javascript %}
 
+
+
 <script>
     $(document).ready(function () {
-        $('input[name="{{ form.checkbox_field.vars.full_name }}"]').change(function () {
-            if ($(this).is(':checked')) {
-                $('#conditional-field').toggleClass("d-none");
-                $('#conditional-field input').attr('required', "true");
+        // Sélectionnez la case à cocher par son nom
+        let $checkbox = $('#task_checkbox_field');
+    
+        $checkbox.change(function () {
+            let isChecked = $(this).prop("checked");
+            let $form = $(this).closest('form');
+            let data = {};
+            data[$(this).attr('name')] = $(this).val();
+    
+            if (isChecked) {
+                $.post($form.attr('action'), data).then(function (data) {
+                    // Supprimez d'abord l'élément s'il existe
+                    $("#conditional-field").detach();
+                    let input = $(data).find("#conditional-field");
+                    if (input.length) {
+                        $('#task').append(input);
+                    }
+                });
             } else {
-                $('#conditional-field').toggleClass("d-none");
-                $('#conditional-field input').removeAttr('required', "true");
+                // Supprimez l'élément #conditional-field s'il existe
+                $("#conditional-field").detach();
             }
         });
     });
+    
 </script>
 
 {% endblock %}
