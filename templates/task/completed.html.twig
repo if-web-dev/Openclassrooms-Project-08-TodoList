@@ -46,9 +46,9 @@ completed tasks
     $(document).ready(function() {
         $('.toggle').click(function(e) {
             var button = $(this);
-            
             let taskId = button.data('task-id');
             let isDone = button.data('is-done');
+            let card = $('.card');
             let toDoNumber = $('#tasks-to-do-number');
             let doneNumber = $('#tasks-done-number');
 
@@ -61,7 +61,8 @@ completed tasks
                 dataType: 'json',
                 success: function(data) {
                     if (isDone) {
-                        button.text("Marked as done");
+                        $('.card[data-task-id="' + taskId + '"]').toggleClass('task-ok');
+                        button.text("Mark as done");
                         $('.status-picto[data-task-id="' + taskId + '"]').html('<img src="img/todo-and-co-cross.svg" width="100%">');
                         let currentDoneNumber = parseInt(doneNumber.text());
                         let newDoneNumber = currentDoneNumber - 1;
@@ -71,7 +72,8 @@ completed tasks
                         let newToDoNumber = currentToDoNumber + 1;
                         toDoNumber.text(newToDoNumber);
                     } else {
-                        button.text("Marked as to do");
+                        $('.card[data-task-id="' + taskId + '"]').toggleClass('task-ok');
+                        button.text("Mark as to do");
                         $('.status-picto[data-task-id="' + taskId + '"]').html('<img src="img/todo-and-co-logo-blue.svg" width="100%">');
                         let currentDoneNumber = parseInt(doneNumber.text());
                         let newDoneNumber = currentDoneNumber + 1;

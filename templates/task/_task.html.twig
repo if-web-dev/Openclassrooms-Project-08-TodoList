@@ -1,5 +1,5 @@
 <div class="col-md-6 col-xl-4 d-flex">
-    <div class="card text-white bg-todo-1 flex-fill m-3">
+    <div class="card text-white {% if task.isDone %} task-ok {% endif %} flex-fill m-3" data-task-id="{{ task.id }}" >
         <div class="card-header d-flex justify-content-between">
             <div>
                 {% if task.user == null %}
@@ -23,7 +23,7 @@
             </span>
         </div>
         <div class="card-body d-flex flex-column">
-            <h5><a href="{{ path('task_edit', {'id' : task.id }) }}" class="task-title">{{task.title|capitalize}}</a></h5>
+            <h5><a href="{{ path('task_edit', {'id' : task.id }) }}" class="text-white text-decoration-none fw-bold">{{task.title|capitalize}}</a></h5>
             <p class="card-text">
                 {{task.content}}
             </p>
@@ -35,7 +35,7 @@
            
             <div class="d-flex mt-auto">
                 <button class="btn btn-success btn-sm mb-1 me-2 toggle" data-task-id="{{ task.id }}" data-is-done="{{ task.isDone ? 1 : 0 }}">
-                    {% if task.isDone %}Marked as to do{% else %}Marked as done{% endif %}
+                    {% if task.isDone %}Mark as to do{% else %}Mark as done{% endif %}
                 </button>                    
                 {% if is_granted("TASK_MODIFY", task) %}
                 <a href="{{ path('task_delete', {'id': task.id}) }}" class="link-danger ms-2 mt-1 text-decoration-none">Delete</a>

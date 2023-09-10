@@ -20,44 +20,26 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'required' => false,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\NotNull()
+                ],
             ])
-            ->add('content', TextareaType::class, [
-               
-                'required' => false,
-                
-            ])
+            ->add('content', TextareaType::class)
             ->add('checkbox_field', CheckboxType::class, [
                 'label' => 'Create a deadline ?',
                 'required' => false,
                 'mapped' => false,
+            ])
+            ->add('deadline', DateType::class, [
+                'widget' => 'single_text',
+                'input'  => 'datetime_immutable',
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'mb-3 d-none',
+                    'id' => 'conditional-field'
+                ],
             ]);
-       
-     
-        $builder->get('checkbox_field')->addEventListener(
-            FormEvents::SUBMIT,
-            function (FormEvent $event) {
-
-                $form = $event->getForm();
-                $data = $event->getData();
-                //dd($data);
-                
-                if($data){
-                    $form->getParent()->add('deadline', DateType::class, [
-                        'widget' => 'single_text',
-                        'input'  => 'datetime_immutable',
-                        'required' => false,
-                        /*'constraints' => [
-                            new Assert\NotBlank(),
-                        ],*/
-                        'row_attr' => [
-                            'class' => 'mb-3',
-                            'id' => 'conditional-field'
-                        ],
-                    ]);
-                }
-            }
-        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

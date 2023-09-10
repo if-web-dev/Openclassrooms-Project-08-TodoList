@@ -15,6 +15,21 @@ h1 {
     color: var(--bs-todo-1);
 }
 
+.card {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-todo-1-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.bg-todo-1 {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-todo-1-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.task-ok {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-todo-2-rgb), var(--bs-bg-opacity)) !important;
+}
+
 li a {
     color: var(--bs-todo-1);
 }
