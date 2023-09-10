@@ -15,7 +15,7 @@ h1 {
     color: var(--bs-todo-1);
 }
 
-.card {
+#card {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-todo-1-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -25,7 +25,7 @@ h1 {
     background-color: rgba(var(--bs-todo-1-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.task-ok {
+#card.task-ok {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-todo-2-rgb), var(--bs-bg-opacity)) !important;
 }

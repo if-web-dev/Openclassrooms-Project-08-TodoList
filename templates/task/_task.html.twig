@@ -1,5 +1,5 @@
 <div class="col-md-6 col-xl-4 d-flex">
-    <div class="card text-white {% if task.isDone %} task-ok {% endif %} flex-fill m-3" data-task-id="{{ task.id }}" >
+    <div class="card text-white {% if task.isDone %} task-ok {% endif %} flex-fill m-3" data-task-id="{{ task.id }}" id="card" >
         <div class="card-header d-flex justify-content-between">
             <div>
                 {% if task.user == null %}
