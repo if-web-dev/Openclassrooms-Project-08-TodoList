@@ -36,6 +36,15 @@ This project was developed with PHP 8.1, it integrates the bootstrap, datatables
 - Admin Credentials : `Admin` and `password`
 - User Credentials : `User` and `password`
 
+## Features
+
+- Task Crud
+- Task status and task pannel info update in ajax
+- login 
+- Admin dashbord
+- Manage tasks according to the owner
+- Bootstrap v5
+
 ## Run the tests
 
 - First create a  `.env.test.local.`  file for your test environment datas and create your test database:
