@@ -18,19 +18,56 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, ['label' => "Username"])
+            ->add('username', TextType::class, [
+                'label' => 'Username',
+                'row_attr' => [
+                    'class' => 'form-floating mb-4',
+                ],
+                'attr' => [
+                    'placeholder' => 'Username'
+                ]
+            ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'both passwords must match',
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Enter the password again'],
+                
+                'first_options'  => [
+                    'label' => 'Password',
+                    'row_attr' => [
+                        'class' => 'form-floating mb-4',
+                    ],
+                    'attr' => [
+                        'placeholder' => 'Password'
+                    ]
+                ],
+                'second_options' => [
+                    'label' => 'Enter the password again',
+                    'row_attr' => [
+                        'class' => 'form-floating mb-4',
+                    ],
+                    'attr' => [
+                        'placeholder' => 'Enter the password again'
+                    ]
+                ],
             ])
-            ->add('email', EmailType::class, ['label' => 'Email adress'])
+            ->add('email', EmailType::class, [
+                'label' => 'Email adress',
+                'row_attr' => [
+                    'class' => 'form-floating mb-4',
+                ],
+                'attr' => [
+                    'placeholder' => 'Email adress'
+                ]
+            ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'User' => "ROLE_USER",
                     'Admin' => "ROLE_ADMIN",
+                ],
+                'placeholder' => '--Choose a role--',
+                'row_attr' => [
+                    'class' => 'form-floating mb-4',
                 ],
             ]);
 

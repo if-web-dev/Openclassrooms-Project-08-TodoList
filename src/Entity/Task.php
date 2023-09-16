@@ -48,6 +48,9 @@ class Task
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deadline = null;
 
+    #[ORM\Column]
+    private ?int $priority = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -125,6 +128,18 @@ class Task
     public function setDeadline(?\DateTimeImmutable $deadline): self
     {
         $this->deadline = $deadline;
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): self
+    {
+        $this->priority = $priority;
 
         return $this;
     }

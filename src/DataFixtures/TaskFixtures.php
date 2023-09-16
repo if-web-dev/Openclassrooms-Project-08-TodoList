@@ -58,6 +58,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
         $task = (new Task())
             ->setTitle("anonymous task")
             ->setContent("anonymous task")
+            ->setPriority(2)
             ->setDeadline(new \DateTimeImmutable())
             ->setUser(null);
 
@@ -71,6 +72,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
             $task = (new Task())
                 ->setTitle($userData['title'])
                 ->setContent($userData['content'])
+                ->setPriority(++$randNbr)
                 ->setUser($user);
 
             $manager->persist($task);

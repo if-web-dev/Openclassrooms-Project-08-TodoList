@@ -26,8 +26,8 @@ h1 {
 }
 
 #card.task-ok {
-    --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-todo-2-rgb), var(--bs-bg-opacity)) !important;
+    --bs-bg-opacity: 0.70;
+    background-color: rgba(var(--bs-todo-1-rgb), var(--bs-bg-opacity)) !important;
 }
 
 li a {
@@ -99,6 +99,16 @@ main {
     min-height: 100%;
 }
 
+.star {
+    font-size: 18px; 
+    line-height: 16px;
+    color: #ccc; 
+    margin-right: 5px; 
+}
+
+.star.filled {
+    color: #ffdd00;
+}
 
 footer {
     margin-top: auto;
@@ -107,7 +117,6 @@ footer {
     font-weight: 100 !important;
 
 }
-
 
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
