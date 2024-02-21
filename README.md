@@ -17,8 +17,8 @@ This project was developed with PHP 8.1, it integrates the bootstrap, datatables
 ### Prerequisites
 
 - A machine with at least PHP 8.1.
-- Composer
-- Symfony CLI
+- Composer.
+- Symfony CLI.
 > **NOTE** : I used WAMP Server on local.
 
 ### Installation
